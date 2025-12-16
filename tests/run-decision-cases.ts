@@ -14,24 +14,37 @@ type TestCase = {
   };
 };
 
+const ROOT = path.resolve(__dirname, "decision-cases");
+
 function loadCases(dir: string): TestCase[] {
   const cases: TestCase[] = [];
 
   for (const entry of fs.readdirSync(dir)) {
     const fullPath = path.join(dir, entry);
-    const mod = require(path.resolve(fullPath));
-    if (fs.statSync(fullPath).isDirectory()) {
+    const stat = fs.statSync(fullPath);
+
+    // 1️⃣ Recurse into directories
+    if (stat.isDirectory()) {
       cases.push(...loadCases(fullPath));
-    } else if (entry.endsWith(".ts")) {
-     
-      if (mod.testCase) cases.push(mod.testCase);
+      continue;
+    }
+
+    // 2️⃣ Ignore non-test files
+    if (!entry.endsWith(".ts")) {
+      continue;
+    }
+
+    // 3️⃣ Only now is it safe to require
+    const mod = require(path.resolve(fullPath));
+    if (mod.testCase) {
+      cases.push(mod.testCase);
     }
   }
 
   return cases;
 }
 
-const cases = loadCases("tests/decision-cases");
+const cases = loadCases(ROOT);
 
 let failed = 0;
 
