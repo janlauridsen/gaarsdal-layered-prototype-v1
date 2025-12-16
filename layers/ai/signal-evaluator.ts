@@ -1,4 +1,4 @@
-import { DomainSignal } from "@/layers/domain/domain-types";
+import { DomainSignal } from "../domain/domain-types";
 import { SIGNAL_WEIGHTS } from "./weights";
 
 export function selectDominantSignal(
