@@ -1,21 +1,43 @@
 import { DomainSignal } from "../domain/domain-types";
-import { SIGNAL_WEIGHTS } from "./weights";
 
-export function selectDominantSignal(
+const PRIORITY: DomainSignal[] = [
+  DomainSignal.SELF_HARM_SIGNAL,
+  DomainSignal.PTSD_REFERENCE,
+  DomainSignal.TRAUMA_REFERENCE,
+  DomainSignal.ADDICTION_REFERENCE,
+  DomainSignal.MEMORY_MANIPULATION_REQUEST,
+  DomainSignal.IDENTITY_MANIPULATION_REQUEST,
+  DomainSignal.TREATMENT_SUBSTITUTION_REQUEST,
+  DomainSignal.TREATMENT_GUARANTEE_REQUEST,
+  DomainSignal.LOSS_OF_CONTROL_CONCERN,
+  DomainSignal.SAFETY_CONCERN,
+  DomainSignal.PHOBIA_REFERENCE,
+  DomainSignal.ANXIETY_REFERENCE,
+  DomainSignal.STRESS_REFERENCE,
+  DomainSignal.PRACTICAL_QUERY,
+  DomainSignal.NONE
+];
+
+export interface EvaluatedSignals {
+  signals: DomainSignal[];
+  dominantSignal: DomainSignal;
+}
+
+export function evaluateSignals(
   signals: DomainSignal[]
-): DomainSignal {
-  if (signals.length === 0) return DomainSignal.NONE;
-
-  let dominant = DomainSignal.NONE;
-  let highest = -1;
-
-  for (const s of signals) {
-    const weight = SIGNAL_WEIGHTS[s] ?? 0;
-    if (weight > highest) {
-      highest = weight;
-      dominant = s;
+): EvaluatedSignals {
+  for (const p of PRIORITY) {
+    if (signals.includes(p)) {
+      return {
+        signals,
+        dominantSignal: p
+      };
     }
   }
 
-  return dominant;
+  // Fallback (bør aldrig ske)
+  return {
+    signals,
+    dominantSignal: DomainSignal.NONE
+  };
 }
