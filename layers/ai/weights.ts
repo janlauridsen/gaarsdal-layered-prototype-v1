@@ -1,4 +1,4 @@
-import { Strategy } from "../domain/strategies";
+import { DomainSignal } from "../domain/domain-types";
 
 export const SIGNAL_WEIGHTS: Record<DomainSignal, number> = {
   [DomainSignal.NONE]: 0,
