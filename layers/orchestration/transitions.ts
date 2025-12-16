@@ -1,6 +1,6 @@
 import { SessionState } from "./states";
 import { OrchestrationEvent } from "./events";
-import { Strategy } from "@/layers/domain/strategies";
+import { Strategy } from "../domain/strategies";
 
 export function transition(
   state: SessionState,
