@@ -1,16 +1,16 @@
-import { extractInput } from "./input-extractor";
+import { extractSignals } from "./input-extractor";
 import { evaluateSignals } from "./signal-evaluator";
 import { decideStrategy } from "./ai-contract";
 
-export function evaluateInput(input: string, context?: unknown) {
-  // 1. Udtræk rå signaler
-  const extracted = extractInput(input);
+export function evaluateInput(input: string) {
+  // 1. Extract raw domain signals
+  const signals = extractSignals({ text: input });
 
-  // 2. Evaluer og vægt signaler
-  const evaluated = evaluateSignals(extracted);
+  // 2. Evaluate and prioritize signals
+  const evaluated = evaluateSignals(signals);
 
-  // 3. Vælg strategi (ingen tekst, ingen etik her)
-  const decision = decideStrategy(evaluated, context);
+  // 3. Decide strategy (deterministic)
+  const decision = decideStrategy(evaluated);
 
   return {
     signals: evaluated.signals,
