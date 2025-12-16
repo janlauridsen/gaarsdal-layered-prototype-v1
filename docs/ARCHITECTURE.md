@@ -107,6 +107,26 @@ og må aldrig være afhængigt af AI-output.
 
 AI fungerer udelukkende som rådgivende beslutningsmotor.
 
+**Kontekst og afklaring**
+
+AI-adfærdslaget må bevare og anvende kontekst på tværs af flere brugerforespørgsler
+med henblik på:
+
+- faglig sammenhæng
+- begrebsmæssig præcisering
+- logisk konsistens og inkonsistensdetektion
+
+Kontekst anvendes udelukkende på indholds- og begrebsniveau.
+
+AI-adfærdslaget må:
+- stille afklarende spørgsmål relateret til betydning og begrebsforståelse
+- påpege logiske uoverensstemmelser i brugerens spørgsmål
+
+AI-adfærdslaget må ikke:
+- stille spørgsmål om brugerens velbefindende, intentioner eller behov
+- følge eller vurdere brugerens proces over tid
+- formulere sig relationelt eller procesorienteret
+
 ---
 
 ### 3.5 Infrastruktur / Platform
