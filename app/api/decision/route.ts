@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 
-import { decideAI } from "@/layers/ai";
-import { decideDomain } from "@/layers/domain/domain-contract";
-import { createSession, handleEvent } from "@/layers/orchestration/state-machine";
-import { OrchestrationEvent } from "@/layers/orchestration/events";
+import { decideAI } from "../../../layers/ai";
+import { decideDomain } from "../../../layers/domain/domain-contract";
+import { createSession, handleEvent } from "../../../layers/orchestration/state-machine";
+import { OrchestrationEvent } from "../../../layers/orchestration/events";
+import { DomainSignal } from "../../../layers/domain/domain-types";
 
-import { DomainSignal } from "@/layers/domain/domain-types";
 
 export async function POST() {
   // --- input (placeholder, statisk)
