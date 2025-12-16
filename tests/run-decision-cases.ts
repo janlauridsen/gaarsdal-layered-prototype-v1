@@ -2,61 +2,45 @@ import { evaluateInput } from "../layers/ai";
 import fs from "fs";
 import path from "path";
 
-type TestCase = {
-  id: string;
-  input: { text: string };
-  expected: {
-    ai: {
-      signals: Record<string, unknown>;
-      dominantSignal: string;
-      strategy: string;
-    };
-  };
-};
-
-function loadTestCases(dir: string): TestCase[] {
-  const cases: TestCase[] = [];
+function loadCases(dir: string): any[] {
+  const cases: any[] = [];
 
   for (const entry of fs.readdirSync(dir)) {
-    const fullPath = path.join(dir, entry);
+    const full = path.join(dir, entry);
 
-    if (fs.statSync(fullPath).isDirectory()) {
-      cases.push(...loadTestCases(fullPath));
+    if (fs.statSync(full).isDirectory()) {
+      cases.push(...loadCases(full));
     } else if (entry.endsWith(".ts")) {
-      const mod = require(fullPath);
-      if (mod.testCase) {
-        cases.push(mod.testCase);
-      }
+      const mod = require(full);
+      if (mod.testCase) cases.push(mod.testCase);
     }
   }
 
   return cases;
 }
 
-const cases = loadTestCases("tests/decision-cases");
+const cases = loadCases("tests/decision-cases");
 
 let failed = 0;
 
 for (const test of cases) {
-  const result = evaluateInput(test.input.text);
+  const result = evaluateInput({ text: test.input.text });
 
   const expected = test.expected.ai;
 
-  const pass =
+  const ok =
     JSON.stringify(result.signals) === JSON.stringify(expected.signals) &&
     result.dominantSignal === expected.dominantSignal &&
     result.strategy === expected.strategy;
 
-  if (!pass) {
+  if (!ok) {
     failed++;
-    console.error(`❌ ${test.id} failed`);
+    console.error(`❌ ${test.id}`);
     console.error("Expected:", expected);
-    console.error("Received:", result);
+    console.error("Got:", result);
   } else {
     console.log(`✅ ${test.id}`);
   }
 }
 
-if (failed > 0) {
-  process.exit(1);
-}
+if (failed > 0) process.exit(1);
