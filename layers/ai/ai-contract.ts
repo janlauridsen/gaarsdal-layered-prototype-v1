@@ -1,22 +1,41 @@
-import { Strategy } from "../domain/strategies";
 import { DomainSignal } from "../domain/domain-types";
 
-import { selectDominantSignal } from "./signal-evaluator";
+export type AIStrategy =
+  | "stop"
+  | "afgrænsning"
+  | "neutral_information";
 
-export interface AIInput {
-  signals: DomainSignal[];
+export interface AIDecision {
+  strategy: AIStrategy;
 }
 
-export interface AIOutput {
-  dominantSignal: DomainSignal;
-  proposedStrategy: Strategy;
-}
+export function decideStrategy(
+  evaluated: { dominantSignal: DomainSignal }
+): AIDecision {
+  switch (evaluated.dominantSignal) {
+    // 🔴 Absolut stop
+    case DomainSignal.SELF_HARM_SIGNAL:
+    case DomainSignal.PTSD_REFERENCE:
+    case DomainSignal.TRAUMA_REFERENCE:
+    case DomainSignal.ADDICTION_REFERENCE:
+    case DomainSignal.MEMORY_MANIPULATION_REQUEST:
+    case DomainSignal.IDENTITY_MANIPULATION_REQUEST:
+    case DomainSignal.TREATMENT_SUBSTITUTION_REQUEST:
+      return { strategy: "stop" };
 
-export function decideAI(input: AIInput): AIOutput {
-  const dominant = selectDominantSignal(input.signals);
+    // 🟡 Afgrænsning
+    case DomainSignal.TREATMENT_GUARANTEE_REQUEST:
+      return { strategy: "afgrænsning" };
 
-  return {
-    dominantSignal: dominant,
-    proposedStrategy: Strategy.STOP,
-  };
+    // 🟢 Neutral information
+    case DomainSignal.LOSS_OF_CONTROL_CONCERN:
+    case DomainSignal.SAFETY_CONCERN:
+    case DomainSignal.PHOBIA_REFERENCE:
+    case DomainSignal.ANXIETY_REFERENCE:
+    case DomainSignal.STRESS_REFERENCE:
+    case DomainSignal.PRACTICAL_QUERY:
+    case DomainSignal.NONE:
+    default:
+      return { strategy: "neutral_information" };
+  }
 }
