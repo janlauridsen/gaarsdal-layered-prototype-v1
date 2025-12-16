@@ -9,6 +9,10 @@ Denne UI eksisterer udelukkende for at:
 gøre brugerens problem mindre diffust
 uden at fortælle brugeren, hvad der skal gøres.
 
+Dette dokument kan suppleres af facade- eller kontekstspecifikke
+UI-kontrakter, som yderligere indsnævrer UI-adfærd
+uden at udvide UI’ets autoritet.
+
 UI’et må ikke:
 
 guide
