@@ -1,13 +1,15 @@
-UI-CONTRACT
+# UI-CONTRACT
 
 Gaarsdal Reference UI – v1
 
-Formål
+---
+
+## Formål
 
 Denne UI eksisterer udelukkende for at:
 
-gøre brugerens problem mindre diffust
-uden at fortælle brugeren, hvad der skal gøres.
+* gøre brugerens problem mindre diffust
+* uden at fortælle brugeren, hvad der skal gøres
 
 Dette dokument kan suppleres af facade- eller kontekstspecifikke
 UI-kontrakter, som yderligere indsnævrer UI-adfærd
@@ -15,217 +17,229 @@ uden at udvide UI’ets autoritet.
 
 UI’et må ikke:
 
-guide
+* guide
+* overtale
+* berolige
+* konkludere
+* skabe relation
 
-overtale
+---
 
-berolige
-
-konkludere
-
-skabe relation
-
-1. UI’ens rolle
+## 1. UI’ens rolle
 
 UI’et er en passiv faglig ramme, ikke en aktør.
 
 UI’et:
 
-repræsenterer ingen intention
+* repræsenterer ingen intention
+* stiller ingen diagnose
+* har ingen mening om udfald
+* tager ikke ansvar for brugerens valg
 
-stiller ingen diagnose
+---
 
-har ingen mening om udfald
-
-tager ikke ansvar for brugerens valg
-
-2. Legitimitet
+## 2. Legitimitet
 
 UI’et er kun legitimt, hvis det:
 
-reducerer uklarhed
-
-øger differentiering
-
-gør sproget mere præcist
-
-synliggør grænser
+* reducerer uklarhed
+* øger differentiering
+* gør sproget mere præcist
+* synliggør grænser
 
 Hvis UI’et:
 
-presser mod handling
-
-antyder “det her er for dig”
-
-skaber forventning om hjælp
+* presser mod handling
+* antyder “det her er for dig”
+* skaber forventning om hjælp
 
 → er det et brud på kontrakten.
 
-3. Hvad UI’et må vise
-3.1 Faglig information
+---
+
+## 3. Hvad UI’et må vise
+
+### 3.1 Faglig information
 
 UI’et må vise:
 
-generelle beskrivelser af hypnoterapi
-
-kendte anvendelsesområder
-
-veldokumenterede begrænsninger
-
-forskelle mellem relevante og irrelevante problemtyper
+* generelle beskrivelser af hypnoterapi
+* kendte anvendelsesområder
+* veldokumenterede begrænsninger
+* forskelle mellem relevante og irrelevante problemtyper
 
 Alt indhold skal være:
 
-generelt
+* generelt
+* ikke-adresserende
+* uden brug af “du”
 
-ikke-adresserende
+---
 
-uden “du”
-
-3.2 Afgrænsninger
+### 3.2 Afgrænsninger
 
 UI’et skal tydeligt vise:
 
-hvad hypnoterapi ikke er egnet til
-
-hvor fagets grænser går
-
-hvornår videre afklaring kræver menneskelig vurdering
+* hvad hypnoterapi ikke er egnet til
+* hvor fagets grænser går
+* hvornår videre afklaring kræver menneskelig vurdering
 
 Afgrænsning er et positivt signal, ikke en fejl.
 
-3.3 Eksempler (uden adressat)
+---
 
-UI’et må vise eksempler i formen:
+### 3.3 Eksempler (uden adressat)
 
-“nogle opsøger hypnose i forbindelse med …”
+UI’et må vise eksempler i former som:
 
-“i praksis ses ofte …”
+* “nogle opsøger hypnose i forbindelse med …”
+* “i praksis ses ofte …”
+* “hypnoterapi anvendes ikke ved …”
 
-“hypnoterapi anvendes ikke ved …”
+Eksempler må ikke:
 
-Eksempler må:
+* pege på brugerens situation
+* opstille succesnarrativer
+* antyde sandsynlighed eller effekt
 
-ikke pege på brugerens situation
+---
 
-ikke opstille succesnarrativer
-
-ikke antyde sandsynlighed
-
-4. Hvad UI’et aldrig må gøre
+## 4. Hvad UI’et aldrig må gøre
 
 UI’et må aldrig:
 
-stille spørgsmål til brugeren
-
-evaluere brugerinput
-
-sige “det lyder som…”
-
-foreslå næste skridt
-
-validere følelser
-
-reducere ubehag
-
-skabe tryghed
+* på eget initiativ stille spørgsmål til brugeren
+* evaluere brugerinput
+* sige “det lyder som …”
+* foreslå næste skridt
+* validere følelser
+* reducere ubehag
+* skabe tryghed
 
 Ingen tekst må:
 
-indeholde opfordringer
+* indeholde opfordringer
+* indeholde løfter
+* indeholde implicit rådgivning
 
-indeholde løfter
+---
 
-indeholde implicit rådgivning
-
-5. Input-åbning (hvis til stede)
+## 5. Input-åbning (hvis til stede)
 
 Hvis UI’et indeholder et inputfelt:
 
-det må ikke kaldes “chat”
-
-det må ikke love svar
-
-det må ikke forklare formålet
-
-det må ikke invitere til brug
+* det må ikke kaldes “chat”
+* det må ikke love svar
+* det må ikke forklare formålet
+* det må ikke invitere til brug
 
 Input forstås som:
 
-en mulighed for ekstern spejling – ikke dialog
+> en mulighed for faglig forespørgsel og begrebsmæssig sammenstilling – ikke dialog
 
-6. Udfald
+Spejling forstås her som:
+
+* faglig og begrebsmæssig sammenstilling af brugerens spørgsmål
+* ikke som psykologisk, personlig eller relationel refleksion
+
+Flertrins interaktioner må udelukkende opstå som gentagne,
+brugerinitierede forespørgsler og må ikke opfattes som
+en sammenhængende proces styret af systemet.
+
+---
+
+## 6. Udfald
 
 Alle følgende udfald er lige gyldige:
 
-brugeren stiller flere spørgsmål
-
-brugeren bliver mere specifik
-
-brugeren kontakter behandleren
-
-brugeren forlader siden
+* brugeren stiller flere spørgsmål
+* brugeren bliver mere specifik
+* brugeren kontakter behandleren
+* brugeren forlader siden
 
 UI’et må ikke markere nogen af disse som ønskelige.
 
-7. Tone og æstetik (arkitektonisk)
+UI må understøtte flertrins faglige forespørgsler og svar,
+så længe interaktionen tydeligt er rammesat som:
+
+* informationsudveksling
+* begrebsafklaring
+
+UI må ikke iscenesætte interaktionen som:
+
+* samtale
+* forløb
+* proces
+* relation
+
+UI-tekster må ikke anvende relationelle markører som:
+
+* “vi”
+* “sammen”
+* “lad os”
+* “fortsæt”
+* “velkommen tilbage”
+
+---
+
+## 7. Tone og æstetik (arkitektonisk)
 
 UI’et skal fremstå:
 
-lav-affektivt
+* lav-affektivt
+* ikke-inviterende
+* konsistent
+* uden tempo-pres
 
-ikke-inviterende
+“Venlighed”, “ro” og “omsorg” er ikke designmål.
 
-konsistent
-
-uden tempo-pres
-
-“Venlighed”, “ro” og “omsorg” må ikke være designmål.
 Klarhed og afgrænsning er designmål.
 
-8. Ansvar
+---
+
+## 8. Ansvar
 
 UI’et bærer intet ansvar for:
 
-brugerens beslutning
-
-forståelse
-
-emotionelle reaktion
-
-videre handling
+* brugerens beslutninger
+* brugerens forståelse
+* emotionelle reaktioner
+* videre handling
 
 Alt ansvar ligger:
 
-uden for UI’et
+* uden for UI’et
+* hos brugeren
+* og evt. hos menneskelig behandler
 
-hos brugeren
+---
 
-og evt. hos menneskelig behandler
-
-9. Udskiftelighed
+## 9. Udskiftelighed
 
 UI’et skal kunne:
 
-udskiftes
-
-redesignes
-
-fjernes helt
+* udskiftes
+* redesignes
+* fjernes helt
 
 …uden at systemets sandhed ændres.
 
 Hvis UI’et fjernes, skal:
 
-domæne
-
-etik
-
-beslutningslogik
+* domæne
+* etik
+* beslutningslogik
 
 stadig stå uændret.
 
-Essens (kort)
+---
+
+## Essens (kort)
 
 UI’et gør verden skarpere –
 ikke valget lettere.
+
+UI må ikke fremstille kontekstbevarelse som:
+
+* personlig hukommelse
+* relationel kontinuitet
