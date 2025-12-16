@@ -1,15 +1,16 @@
 import { NextResponse } from "next/server";
 
 import { decideAI } from "../../../layers/ai";
+import { extractSignals } from "../../../layers/ai";
 import { decideDomain } from "../../../layers/domain/domain-contract";
 import { createSession, handleEvent } from "../../../layers/orchestration/state-machine";
 import { OrchestrationEvent } from "../../../layers/orchestration/events";
-import { DomainSignal } from "../../../layers/domain/domain-types";
 
+export async function POST(req: Request) {
+  const body = await req.json().catch(() => ({}));
 
-export async function POST() {
-  // --- input (placeholder, statisk)
-  const signals: DomainSignal[] = [DomainSignal.NONE];
+  // --- Input → signals
+  const signals = extractSignals({ text: body?.text });
 
   // --- AI
   const aiResult = decideAI({ signals });
@@ -29,6 +30,8 @@ export async function POST() {
   );
 
   return NextResponse.json({
+    signals,
+    dominantSignal: aiResult.dominantSignal,
     state: session.state,
     decision: domainDecision,
   });
