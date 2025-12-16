@@ -1,5 +1,17 @@
 UI CONTRACT
 Gaarsdal Layered AI Prototype – Præsentations- og UI-kontrakt
+## Relation til UI-CONTRACT.md
+
+Dette dokument er et supplement til UI-CONTRACT.md.
+
+Alle regler i UI-CONTRACT.md er gældende uden undtagelse.
+
+Dette dokument specificerer yderligere begrænsninger,
+intention og semantik for én konkret UI-facade
+(gaarsdal.net reference-indgang).
+
+Ved konflikt har UI-CONTRACT.md altid forrang.
+
 1. Dokumentets rolle
 
 Dette dokument fastlægger UI-lagets ansvar, begrænsninger
