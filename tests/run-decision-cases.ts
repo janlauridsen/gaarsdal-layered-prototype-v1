@@ -1,17 +1,29 @@
 import { evaluateInput } from "../layers/ai";
-import fs from "fs";
-import path from "path";
+import * as fs from "fs";
+import * as path from "path";
 
-function loadCases(dir: string): any[] {
-  const cases: any[] = [];
+type TestCase = {
+  id: string;
+  input: { text: string };
+  expected: {
+    ai: {
+      signals: unknown;
+      dominantSignal: string;
+      strategy: string;
+    };
+  };
+};
+
+function loadCases(dir: string): TestCase[] {
+  const cases: TestCase[] = [];
 
   for (const entry of fs.readdirSync(dir)) {
-    const full = path.join(dir, entry);
+    const fullPath = path.join(dir, entry);
 
-    if (fs.statSync(full).isDirectory()) {
-      cases.push(...loadCases(full));
+    if (fs.statSync(fullPath).isDirectory()) {
+      cases.push(...loadCases(fullPath));
     } else if (entry.endsWith(".ts")) {
-      const mod = require(full);
+      const mod = require(fullPath);
       if (mod.testCase) cases.push(mod.testCase);
     }
   }
@@ -24,8 +36,7 @@ const cases = loadCases("tests/decision-cases");
 let failed = 0;
 
 for (const test of cases) {
-  const result = evaluateInput({ text: test.input.text });
-
+  const result = evaluateInput(test.input.text);
   const expected = test.expected.ai;
 
   const ok =
@@ -43,4 +54,6 @@ for (const test of cases) {
   }
 }
 
-if (failed > 0) process.exit(1);
+if (failed > 0) {
+  process.exit(1);
+}
