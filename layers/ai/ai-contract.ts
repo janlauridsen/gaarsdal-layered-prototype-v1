@@ -1,5 +1,6 @@
-import { Strategy } from "@/layers/domain/strategies";
-import { DomainSignal } from "@/layers/domain/domain-types";
+import { Strategy } from "../domain/strategies";
+import { DomainSignal } from "../domain/domain-types";
+
 import { selectDominantSignal } from "./signal-evaluator";
 
 export interface AIInput {
