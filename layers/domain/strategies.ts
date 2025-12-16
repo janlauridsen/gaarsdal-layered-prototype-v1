@@ -1,7 +1,10 @@
 export enum Strategy {
   STOP = "STOP",
+
+  PROVIDE_NEUTRAL_INFO = "PROVIDE_NEUTRAL_INFO",
+  PROVIDE_NON_THERAPEUTIC_GUIDANCE = "PROVIDE_NON_THERAPEUTIC_GUIDANCE",
 }
 
 export const STOP_DECISION = {
-  strategy: Strategy.STOP,
+  strategy: Strategy.STOP as const,
 };
