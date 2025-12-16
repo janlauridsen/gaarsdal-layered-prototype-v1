@@ -1,0 +1,173 @@
+/* =========================================================
+   Base
+   ========================================================= */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #EFEDE7;
+  color: #2C2A28;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont,
+               "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   Typography utilities
+   ========================================================= */
+
+.text-h1 {
+  font-size: 48px;
+  line-height: 1.2;
+}
+
+.text-base-lg {
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   Layout
+   ========================================================= */
+
+header.hero {
+  padding: 4rem 1.5rem 3.5rem;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+main {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+section {
+  padding: 2.5rem 1.5rem;
+  border-bottom: 1px solid #D8D5CC;
+}
+
+section:last-child {
+  border-bottom: none;
+}
+
+/* =========================================================
+   Logo
+   ========================================================= */
+
+.logo {
+  margin-bottom: 2rem;
+}
+
+.logo img {
+  max-width: 96px;
+  height: auto;
+  display: block;
+
+  /* subtle separation from background */
+  background: #F4F2ED;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+/* =========================================================
+   Headings
+   ========================================================= */
+
+h1, h2 {
+  font-weight: 500;
+  margin-bottom: 0.6rem;
+}
+
+h2 {
+  font-size: 1.4rem;
+}
+
+/* =========================================================
+   Text
+   ========================================================= */
+
+p {
+  max-width: 65ch;
+  margin-top: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+/* =========================================================
+   Links
+   ========================================================= */
+
+a {
+  color: #2C2A28;
+  text-decoration: underline;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+/* =========================================================
+   Call to action
+   ========================================================= */
+
+.cta {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 0.7rem 1.4rem;
+  border: 1px solid #2C2A28;
+  color: #2C2A28;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.cta:hover {
+  background: #2C2A28;
+  color: #EFEDE7;
+}
+
+/* =========================================================
+   Footer
+   ========================================================= */
+
+footer {
+  text-align: center;
+  padding: 2.5rem 1.5rem;
+  font-size: 0.9rem;
+  color: #4A4744;
+}
+
+/* =========================================================
+   Animation
+   ========================================================= */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out;
+}
+
+/* =========================================================
+   Scrollbar (WebKit)
+   ========================================================= */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #D8D5CC;
+  border-radius: 6px;
+}
