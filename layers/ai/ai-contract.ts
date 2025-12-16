@@ -1,6 +1,21 @@
 import { Strategy } from "@/layers/domain/strategies";
-import { AISignals } from "./signals";
+import { DomainSignal } from "@/layers/domain/domain-types";
+import { selectDominantSignal } from "./signal-evaluator";
 
-export function decide(_: AISignals): Strategy {
-  return Strategy.STOP;
+export interface AIInput {
+  signals: DomainSignal[];
+}
+
+export interface AIOutput {
+  dominantSignal: DomainSignal;
+  proposedStrategy: Strategy;
+}
+
+export function decideAI(input: AIInput): AIOutput {
+  const dominant = selectDominantSignal(input.signals);
+
+  return {
+    dominantSignal: dominant,
+    proposedStrategy: Strategy.STOP,
+  };
 }
