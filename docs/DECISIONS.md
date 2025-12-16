@@ -30,6 +30,7 @@ etik
 forklarbarhed
 
 genbrug af beslutningslogik
+
 ikke performance, UX-optimering eller drift.
 
 D2 – AI er en beslutningsmotor, ikke en chatbot
@@ -144,6 +145,7 @@ audit
 læring
 
 forklarbarhed
+
 ikke til styring eller feedback loops.
 
 D9 – Orkestrering som deterministisk state machine
@@ -178,18 +180,22 @@ Begrundelse:
 UI er det mest sårbare lag
 og må aldrig kunne omgå etik eller domænegrænser.
 
+2025 – Etiske grænser og ansvar
 D11 – Safety override ved signaler om selvskade eller selvmord
 
 Beslutning:
-Ved stærke eller gentagne signaler, der indikerer mulig selvskade eller selvmordstanker, aktiveres et tværgående safety override, som midlertidigt overstyrer normal domæne- og samtalelogik med det ene formål at sikre ansvarlig overdragelse til ekstern menneskelig hjælp.
+Ved stærke eller gentagne signaler, der indikerer mulig selvskade
+eller selvmordstanker, aktiveres et tværgående safety override,
+som midlertidigt overstyrer normal domæne- og samtalelogik
+med det ene formål at sikre ansvarlig overdragelse til ekstern menneskelig hjælp.
 
 I denne situation gælder:
 
 AI må udelukkende foreslå strategien stop
 
-Orkestreringslaget skal føre sessionen til STOPPED efterfulgt af REDIRECT
+Orkestreringslaget skal føre sessionen til STOPPED
 
-UI må udelukkende vise statisk, faktuel information om eksterne hjælpetilbud
+UI må udelukkende gengive statisk, faktuel information om eksterne hjælpetilbud
 
 Systemet må ikke fortsætte dialog, stille spørgsmål eller tilbyde hjælp inden for systemet
 
@@ -203,30 +209,178 @@ eksisterer udelukkende for at opfylde etisk minimumsansvar ved potentiel akut fa
 
 Begrundelse:
 Stram domæneafgrænsning må aldrig føre til etisk passivitet ved alvorlig risiko.
-Systemet skal kunne stoppe korrekt og overdrage ansvar, uden at:
-
-vurdere risikoens grad
-
-foreslå løsninger
-
-påtage sig terapeutisk eller klinisk rolle
-
-Denne beslutning sikrer, at arkitekturen forbliver:
-
-etisk forsvarlig
-
-kontrakt-lukket
-
-fri for skjult triage eller overreach
-
 Safety override er et exit-princip, ikke en funktion.
 
-Status
+D12 – AI-systemet påtager sig ikke relationelt ansvar ved sårbarhed
 
-Dette dokument afspejler
-den nuværende arkitektoniske sandhed
-for gaarsdal-layered-prototype-v1.
+Beslutning:
+Systemet er ikke ansvarligt for relationel eller emotionel afhjælpning
+ved brugerens sårbarhed, uanset hvor tydelig eller indirekte denne er.
 
-Hvis noget føles forkert,
-skal beslutningen ændres her –
-ikke skjult i kode eller implementation.
+Begrundelse:
+Enhver differentieret respons på sårbarhed
+(omsorg, anerkendelse, validering)
+trækker systemet i en terapeutisk rolle.
+
+Systemet accepterer at fremstå hårdt
+for at bevare:
+
+klar rollefordeling
+
+domæneisolering
+
+testbar etik
+
+D13 – “STOP” er etisk korrekt, selv når det opleves utilstrækkeligt
+
+Beslutning:
+Et fuldt stop (STOPPED) betragtes som en etisk korrekt systemreaktion,
+også hvor en menneskelig aktør ville trøste eller guide videre.
+
+Begrundelse:
+Arkitekturen prioriterer:
+
+ikke at gøre skade
+
+ikke at foregive kompetence
+
+ikke at skabe falsk tryghed
+
+Systemets ansvar ophører,
+hvor videre handling kræver menneskelig dømmekraft.
+
+D14 – Ambivalent og sarkastisk input sidestilles med alvorlig sårbarhed
+
+Beslutning:
+Brugerinput, der udtrykker sårbarhed gennem:
+
+benægtelse
+
+ironi
+
+sarkasme
+
+professionel distance
+
+klassificeres konservativt som højrisiko.
+
+Begrundelse:
+Forsøg på at afkode intention bag tone
+introducerer fortolkning og terapeutisk glidning.
+Systemet stopper hellere for tidligt end for sent.
+
+D15 – Systemet differentierer ikke mellem test og reelt behov
+
+Beslutning:
+Systemet skelner ikke mellem brugere, der:
+
+reelt søger hjælp
+
+tester systemets grænser
+
+forsøger at fremprovokere svar
+
+Alle behandles ens, baseret på signaler – ikke intention.
+
+Begrundelse:
+Adversarial og autentisk input kan være uadskillelige.
+Differentiering ville kræve psykologisk fortolkning
+og svække determinismen.
+
+D16 – Henvisning til ekstern hjælp er ikke et AI-ansvar
+
+Beslutning:
+Henvisning til:
+
+kriselinjer
+
+sundhedsvæsen
+
+andre professionelle
+
+er ikke et ansvar for AI-, orkestrerings- eller UI-laget.
+
+UI kan teknisk gengive statisk ansvarsinformation
+som del af et out-of-band ansvarslag,
+men bærer ikke ansvar for vurdering, timing eller relevans.
+
+Begrundelse:
+Henvisning indebærer implicit vurdering og omsorgskommunikation,
+hvilket overskrider systemets rolle.
+
+D17 – Etik håndhæves gennem begrænsning, ikke gennem kompensation
+
+Beslutning:
+Systemets etiske ansvar realiseres gennem:
+
+afgrænsning
+
+stop
+
+tilbageholdenhed
+
+og aldrig gennem kompenserende handling
+(fx “jeg kan ikke hjælpe, men …”).
+
+Begrundelse:
+Kompensation skaber:
+
+glidende ansvar
+
+uklare grænser
+
+implicitte løfter
+
+Arkitekturen er designet til at tåle tavshed.
+
+D18 – Systemet accepterer etisk ubehag som konsekvens
+
+Beslutning:
+Arkitekturen accepterer, at brugere kan opleve systemet som:
+
+koldt
+
+afvisende
+
+utilstrækkeligt
+
+som en acceptabel konsekvens af korrekt etisk afgrænsning.
+
+Begrundelse:
+Alternativet er:
+
+relationel simulering
+
+falsk tryghed
+
+utestbar etik
+
+Systemet optimerer for ansvarlig ikke-indgriben,
+ikke for oplevet omsorg.
+
+D19 – Out-of-Band ansvar uden AI-involvering
+
+Beslutning:
+Systemet indeholder et out-of-band ansvarslag (OAL),
+som er strukturelt til stede i UI-laget,
+men fuldstændigt adskilt fra
+AI-adfærd, domænelogik og orkestrering.
+
+OAL:
+
+aktiveres ikke af AI
+
+vurderer ikke sårbarhed
+
+indgår ikke i beslutningsflow
+
+indeholder ingen dialog eller personalisering
+
+Formålet er at give brugeren adgang til
+faktuel, statisk orientering om ekstern hjælp
+uden at simulere omsorg, relation eller terapeutisk ansvar.
+
+Begrundelse:
+OAL gør det muligt for systemet
+at være etisk ansvarligt
+uden at blive hjælpsomt.
