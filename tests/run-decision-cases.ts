@@ -19,11 +19,11 @@ function loadCases(dir: string): TestCase[] {
 
   for (const entry of fs.readdirSync(dir)) {
     const fullPath = path.join(dir, entry);
-
+    const mod = require(path.resolve(fullPath));
     if (fs.statSync(fullPath).isDirectory()) {
       cases.push(...loadCases(fullPath));
     } else if (entry.endsWith(".ts")) {
-      const mod = require(fullPath);
+     
       if (mod.testCase) cases.push(mod.testCase);
     }
   }
