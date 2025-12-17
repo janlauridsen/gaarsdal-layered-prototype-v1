@@ -1,0 +1,453 @@
+Denne fil indeholder et arkitektonisk overblik over den faktisk implementerede lagdelte løsning:
+hvilke mapper og filer repræsenterer hvilke arkitekturlag,
+hvad der er AI-input / AI-beslutningslogik,
+og hvad der er klassisk deterministisk kode.
+
+Overblikket skal være strukturelt og deskriptivt, ikke analyserende.”*
+
+Lagdiagram (vertikalt overblik)
+┌─────────────────────────────────────────────┐
+│                   UI                        │
+│                                             │
+│  /app                                       │
+│  /components                                │
+│                                             │
+│  - Viser information                        │
+│  - Modtager brugerinput (tekst)             │
+│  - Ingen beslutninger                       │
+└─────────────────────────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────┐
+│           Orkestrering / Entry               │
+│                                             │
+│  /layers/ai/index.ts                         │
+│                                             │
+│  - Eksponerer evaluateInput()                │
+│  - Samler AI-lag                             │
+│  - Ingen domænelogik                         │
+└─────────────────────────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────┐
+│          AI-adfærdslag (deterministisk)      │
+│                                             │
+│  /layers/ai/                                 │
+│                                             │
+│  ┌───────────────────────────────────────┐ │
+│  │ input-extractor.ts                    │ │
+│  │ - tekst → DomainSignal[]              │ │
+│  │ - mønstergenkendelse                  │ │
+│  └───────────────────────────────────────┘ │
+│                     │                       │
+│                     ▼                       │
+│  ┌───────────────────────────────────────┐ │
+│  │ signal-evaluator.ts                   │ │
+│  │ - prioriterer signaler                │ │
+│  │ - vælger dominantSignal               │ │
+│  └───────────────────────────────────────┘ │
+│                     │                       │
+│                     ▼                       │
+│  ┌───────────────────────────────────────┐ │
+│  │ ai-contract.ts                        │ │
+│  │ - signal → strategi                  │ │
+│  │ - stop / afgrænsning / neutral info  │ │
+│  └───────────────────────────────────────┘ │
+│                     │                       │
+│                     ▼                       │
+│  ┌───────────────────────────────────────┐ │
+│  │ decision-engine.ts                   │ │
+│  │ - pipeline                            │ │
+│  │ - samler output                      │ │
+│  └───────────────────────────────────────┘ │
+└─────────────────────────────────────────────┘
+                     │
+                     ▼
+┌─────────────────────────────────────────────┐
+│                Domænelag                    │
+│                                             │
+│  /domain/domain-types.ts                    │
+│                                             │
+│  - DomainSignal enum                        │
+│  - Faglige begreber                         │
+│  - Etiske stop                             │
+└─────────────────────────────────────────────┘
+
+Flowdiagram – input → beslutning → output
+
+[ Brugerinput (tekst) ]
+            │
+            ▼
+┌─────────────────────────────┐
+│ input-extractor.ts          │
+│                             │
+│ "kan hypnose hjælpe mig?"   │
+│        ↓                    │
+│ [DomainSignal[]]            │
+└─────────────────────────────┘
+            │
+            ▼
+┌─────────────────────────────┐
+│ signal-evaluator.ts         │
+│                             │
+│ - vælger dominant signal    │
+│ - reducerer støj            │
+└─────────────────────────────┘
+            │
+            ▼
+┌─────────────────────────────┐
+│ ai-contract.ts              │
+│                             │
+│ dominantSignal → strategi   │
+│                             │
+│ - neutral_information       │
+│ - afgrænsning               │
+│ - pause                     │
+│ - stop                      │
+└─────────────────────────────┘
+            │
+            ▼
+┌─────────────────────────────┐
+│ decision-engine.ts          │
+│                             │
+│ Samlet output:              │
+│ {                            │
+│   signals,                  │
+│   dominantSignal,           │
+│   strategy                  │
+│ }                            │
+└─────────────────────────────┘
+            │
+            ▼
+[ UI gengiver resultat ]
+
+┌──────────────────────────────────────────┐
+│ tests/decision-cases/**                  │
+│                                          │
+│ - basic/                                 │
+│ - adversarial/                           │
+│                                          │
+│ Hver fil:                                │
+│ {                                        │
+│   input                                  │
+│   expected output                        │
+│ }                                        │
+└──────────────────────────────────────────┘
+                     │
+                     ▼
+┌──────────────────────────────────────────┐
+│ tests/run-decision-cases.ts               │
+│                                          │
+│ - loader testcases                        │
+│ - kalder evaluateInput                   │
+│ - sammenligner output                    │
+│ - CI pass/fail                           │
+└──────────────────────────────────────────┘
+
+AI vs. ikke-AI (diagrammatisk grænse)
+
+┌───────────────────────────────┐
+│           Ikke-AI             │
+│                               │
+│ UI                             │
+│ Orkestrering                  │
+│ Domænetyper                   │
+│ Tests                          │
+│ Test-runner                   │
+│ CI / Infrastruktur            │
+└───────────────────────────────┘
+                │
+                │  (grænse)
+                ▼
+┌───────────────────────────────┐
+│        AI-adfærd (kode)       │
+│                               │
+│ input-extractor               │
+│ signal-evaluator              │
+│ ai-contract                   │
+│ decision-engine               │
+└───────────────────────────────┘
+
+
+Test- og kontrolstruktur (separat diagram)
+
+Overblik: Implementeret arkitektur (as-is)
+
+Denne rapport beskriver hvad der findes, hvor det ligger, og hvad det gør – ikke hvorfor.
+
+1. UI-lag (Præsentation)
+Placering
+/app
+/components
+/pages   (hvis anvendt)
+
+Funktion
+
+Præsentation af statisk og dynamisk indhold
+
+Inputfelter (tekst)
+
+Ingen beslutningslogik
+
+Kodekarakter
+
+Klassisk frontend-kode (React / Next.js)
+
+Ingen AI
+
+Ingen domæneetik
+
+Ingen beslutninger
+
+AI-relation
+
+Sender rå tekstinput videre
+
+Modtager struktureret output (strategy / state)
+
+2. Orkestrering / Entry-point
+Placering
+/layers/ai/index.ts
+
+Funktion
+
+Offentlig indgang til AI-motoren
+
+Eksponerer fx:
+
+evaluateInput(input: string)
+
+Kodekarakter
+
+Klassisk glue-kode
+
+Ingen AI-modeller
+
+Ingen semantisk fortolkning
+
+AI-relation
+
+Kalder AI-relaterede funktioner sekventielt
+
+Returnerer samlet beslutningsoutput
+
+3. AI-adfærdslag (Beslutningsmotor)
+
+Dette lag er opdelt i flere filer med klart adskilt ansvar.
+
+3.1 Input-ekstraktion (AI-assisteret klassifikation)
+Placering
+/layers/ai/input-extractor.ts
+
+Funktion
+
+Modtager rå tekst
+
+Identificerer DomainSignal[] baseret på mønstre
+
+Kodekarakter
+
+Deterministisk kode (if / includes)
+
+Ingen generativ AI
+
+Ingen etik
+
+AI-relation
+
+AI-lignende funktion (klassifikation)
+
+Ingen beslutning
+
+Ingen output til bruger
+
+3.2 Signal-evaluering (prioritering)
+Placering
+/layers/ai/signal-evaluator.ts
+
+Funktion
+
+Modtager DomainSignal[]
+
+Vælger:
+
+dominantSignal
+
+evt. reduceret signal-sæt
+
+Kodekarakter
+
+Ren forretningslogik
+
+Deterministisk
+
+Ingen sprog
+
+AI-relation
+
+AI-adfærd (prioritering)
+
+Ingen kreativitet
+
+Ingen etik
+
+3.3 AI-kontrakt / strategi-valg
+Placering
+/layers/ai/ai-contract.ts
+
+Funktion
+
+Modtager evalueret signal
+
+Returnerer:
+
+{ strategy: AIStrategy }
+
+Kodekarakter
+
+Regelbaseret beslutningskode
+
+Ingen tekst
+
+Ingen UI-kendskab
+
+AI-relation
+
+AI-beslutningslogik
+
+Underlagt domænelagets begrænsninger
+
+3.4 Samling (Decision Engine)
+Placering
+/layers/ai/decision-engine.ts
+
+Funktion
+
+Orkestrerer:
+
+extractSignals
+
+evaluateSignals
+
+decideStrategy
+
+Returnerer samlet AI-output
+
+Kodekarakter
+
+Klassisk pipeline-kode
+
+Ingen selvstændig logik
+
+4. Domænelag (Etik & begreber)
+Placering
+/domain/domain-types.ts
+
+Funktion
+
+Definerer:
+
+enum DomainSignal
+
+
+Repræsenterer faglige og etiske begreber
+
+Kodekarakter
+
+Ren types / enums
+
+Ingen funktioner
+
+Ingen AI
+
+AI-relation
+
+Autoritativ reference
+
+AI må kun bruge disse begreber
+
+5. Test- og beslutningskatalog
+Placering
+/tests/decision-cases/**
+
+
+Eksempel:
+
+tests/decision-cases/
+  basic/
+  adversarial/
+
+Funktion
+
+Deklarative testcases
+
+Fastlægger forventet AI-output
+
+Kodekarakter
+
+Data + simple exports
+
+Ingen AI
+
+Ingen runtime-logik
+
+6. Test-runner / Evaluator
+Placering
+/tests/run-decision-cases.ts
+
+Funktion
+
+Loader testcases
+
+Kalder evaluateInput
+
+Sammenligner output mod forventning
+
+Kodekarakter
+
+Klassisk Node.js-kode
+
+Ingen AI
+
+Ingen domæneetik
+
+7. Infrastruktur / Platform
+Placering
+GitHub Actions (.github/workflows)
+Vercel (deployment)
+
+Funktion
+
+CI
+
+Build
+
+Test-eksekvering
+
+Kodekarakter
+
+Konfigurationsfiler
+
+Ingen beslutningslogik
+
+Samlet kortlægning: AI vs. klassisk kode
+Område	Type
+UI	Klassisk kode
+Orkestrering	Klassisk kode
+Input-extractor	AI-adfærd (deterministisk)
+Signal-evaluator	AI-adfærd (deterministisk)
+AI-contract	AI-beslutningslogik
+Domæne	Ren kode / typer
+Tests	Data
+Test-runner	Klassisk kode
+CI / Infra	Konfiguration
+
+Hvis du senere vil:
+
+have samme rapport men som diagram
+
+eller en “hvad kan erstattes af prompt/model”-markering
+
+eller en ren AI vs. ikke-AI heatmap
+
+eller en ren AI vs. ikke-AI heatma
